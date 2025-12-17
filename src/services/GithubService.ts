@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { RepositoryItem } from '../interfaces/RepositoryItem';
+import { UserInfo } from '../interfaces/UserInfo';
 
-const GITHUB_API_URL = 'https://api.github.com/';
-const GITHUB_API_TOKEN = 'ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXX';
+const GITHUB_API_URL = import.meta.env.VITE_API_URL;
+const GITHUB_API_TOKEN = import.meta.env.VITE_GITHUB_API_TOKEN;
 
 export const fetchRepositories = async (): Promise<RepositoryItem[]> => {
     try {
@@ -14,6 +15,7 @@ export const fetchRepositories = async (): Promise<RepositoryItem[]> => {
                 per_page: 100,
                 sort: 'created',
                 direction: 'desc',
+                affiliation: 'owner',
 
             },
         });
@@ -22,11 +24,46 @@ export const fetchRepositories = async (): Promise<RepositoryItem[]> => {
             description: repo.description ? repo.description : null,
             imageUrl: repo.owner ? repo.owner.avatar_url : null,
             owner: repo.owner ? repo.owner.login : null,
-            lenguage: repo.language ? repo.language : null,
+            language: repo.language ? repo.language : null,
         }));
         return repositories;
     } catch (error) {
         console.error('Error al obetener repositorios:', error);
         return [];
+    }
+}
+export const createrRepository = async (repo: RepositoryItem): Promise<void> => {
+    try {
+        const response = await axios.post(`${GITHUB_API_URL}user/repos`,repo, {
+            headers: {
+                Authorization: `Bearer ${GITHUB_API_TOKEN}`,
+                
+            },
+        });
+        console.log('Repositorio creado:', response.data);
+    } catch (error) {
+        console.error('Error al crear repositorio:', error);
+    }
+};
+export const getUserInfo = async () : Promise<UserInfo | null> => {
+    try {
+        const response = await axios.get(`${GITHUB_API_URL}user`, {
+            headers: {
+                Authorization: `Bearer ${GITHUB_API_TOKEN}`,
+            },
+            });
+            return response.data as UserInfo;
+    
+    }catch (error) {
+        console.error('Error al obtener información del usuario:', error);
+        const userNotFound: UserInfo = {
+            login: 'undifined',
+            name: 'Usuario no encontrado',
+            bio: 'No se puede obtener la información del usuario',
+            avatar_url: 'https://static.vecteezy.com/system/resources/previews/026/551/249/non_2x/profile-page-pixelated-ui-icon-address-book-management-contact-user-name-phone-number-editable-8bit-graphic-element-outline-isolated-user-interface-image-for-web-mobile-app-retro-style-vector.jpg',
+
+        };
+        return userNotFound;
+
     }
 }

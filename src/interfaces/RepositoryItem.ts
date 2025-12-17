@@ -3,5 +3,5 @@ export interface RepositoryItem {
   description: string |null;
   imageUrl: string |null;
   owner: string |null;
-  lenguage: string |null;
+  language: string |null;
 }
