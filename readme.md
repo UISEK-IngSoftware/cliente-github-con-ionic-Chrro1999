@@ -3,9 +3,9 @@
 
 ## Información del Estudiante
 
-- **Nombre:** [Tu nombre completo aquí]
-- **Carrera:** [Tu carrera]
-- **Fecha de inicio:** [Fecha]
+- **Nombre:** [Christian Bolaños]
+- **Carrera:** [Ingenieria informatica]
+- **Fecha de inicio:** [07/01/2026]
 
 ---
 
