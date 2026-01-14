@@ -1,0 +1,26 @@
+.loading-container,
+.error-container,
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  min-height: 200px;
+}
+
+.loading-container ion-spinner {
+  margin-bottom: 1rem;
+  --color: var(--ion-color-primary);
+}
+
+.error-container h3,
+.empty-container h3 {
+  margin-bottom: 0.5rem;
+}
+
+.error-container p,
+.empty-container p {
+  margin-bottom: 1rem;
+}
