@@ -1,18 +1,11 @@
-import { 
-  IonItem, 
-  IonLabel, 
-  IonThumbnail, 
-  IonItemSliding, 
-  IonItemOptions, 
-  IonItemOption,
-  IonIcon,
-  useIonAlert,
-  useIonToast
-} from '@ionic/react';
+import { IonItem, IonLabel, IonThumbnail, IonItemSliding, IonItemOptions, IonItemOption,IonIcon,useIonAlert,useIonToast} from '@ionic/react';
 import { trash, pencil } from 'ionicons/icons';
 import './RepoItem.css';
 import { RepositoryItem } from '../interfaces/RepositoryItem';
 import { deleteRepository } from '../services/GithubService';
+import LoadingSpinner from "../components/LoadingSpinner";
+import { useState } from 'react';
+
 
 interface RepoItemProps {
   repo: RepositoryItem;
@@ -23,6 +16,8 @@ interface RepoItemProps {
 const RepoItem: React.FC<RepoItemProps> = ({ repo, onEdit, onDelete }) => {
   const [presentAlert] = useIonAlert();
   const [presentToast] = useIonToast();
+  const [loading, setLoading] = useState(false);
+  
 
   const handleDelete = () => {
     presentAlert({
@@ -83,13 +78,13 @@ const RepoItem: React.FC<RepoItemProps> = ({ repo, onEdit, onDelete }) => {
         </IonLabel>
       </IonItem>
 
-      <IonItemOptions side="start">
+      <IonItemOptions side="end">
         <IonItemOption color="primary" onClick={handleEdit}>
           <IonIcon slot="icon-only" icon={pencil} />
         </IonItemOption>
       </IonItemOptions>
 
-      <IonItemOptions side="end">
+      <IonItemOptions side="start">
         <IonItemOption color="danger" onClick={handleDelete}>
           <IonIcon slot="icon-only" icon={trash} />
         </IonItemOption>

@@ -20,9 +20,7 @@ githubApi.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
-/**
- * GET /user/repos - Obtener repositorios del usuario
- */
+
 export const fetchRepositories = async (): Promise<RepositoryItem[]> => {
     try {
         const response = await githubApi.get(`/user/repos`, {
@@ -47,9 +45,7 @@ export const fetchRepositories = async (): Promise<RepositoryItem[]> => {
     }
 };
 
-/**
- * GET /user - Obtener información del usuario
- */
+
 export const getUserInfo = async (): Promise<UserInfo | null> => {
     try {
         const response = await githubApi.get(`/user`);
@@ -66,9 +62,7 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
     }
 };
 
-/**
- * POST /user/repos - Crear un nuevo repositorio
- */
+
 export const createRepository = async (repo: RepositoryItem): Promise<void> => {
     try {
         const payload = {
@@ -88,10 +82,7 @@ export const createRepository = async (repo: RepositoryItem): Promise<void> => {
     }
 };
 
-/**
- * PATCH /repos/{owner}/{repo} - Actualizar/Editar un repositorio
- * GitHub usa PATCH en lugar de PUT para actualizaciones parciales
- */
+
 export const updateRepository = async (
     owner: string, 
     repoName: string, 
@@ -118,9 +109,7 @@ export const updateRepository = async (
     }
 };
 
-/**
- * DELETE /repos/{owner}/{repo} - Eliminar un repositorio
- */
+
 export const deleteRepository = async (owner: string, repoName: string): Promise<void> => {
     try {
         await githubApi.delete(`/repos/${owner}/${repoName}`);

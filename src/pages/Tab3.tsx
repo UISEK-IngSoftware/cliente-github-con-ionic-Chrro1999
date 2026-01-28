@@ -1,4 +1,5 @@
 import { IonButton, IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar, useIonViewDidEnter } from '@ionic/react';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
 import './Tab3.css';
 import { useState } from 'react';
@@ -11,11 +12,17 @@ import { useHistory } from 'react-router';
 
 const Tab3: React.FC = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   const loadUserInfo = async () => {
-    const info = await getUserInfo();
-    setUserInfo(info);  
+    try {
+      setLoading(true);
+      const info = await getUserInfo();
+      setUserInfo(info);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useIonViewDidEnter(() => {
@@ -29,6 +36,7 @@ const Tab3: React.FC = () => {
 
   return (
     <IonPage>
+      <LoadingSpinner isOpen={loading} />
       <IonHeader>
         <IonToolbar>
           <IonTitle>Perfil del usuario</IonTitle>

@@ -7,7 +7,6 @@ import {
   IonToolbar,
   IonCardSubtitle,
   useIonViewDidEnter,
-  IonSpinner,
   IonRefresher,
   IonRefresherContent,
   RefresherEventDetail,
@@ -27,6 +26,7 @@ import { RepositoryItem } from '../interfaces/RepositoryItem';
 import { fetchRepositories, updateRepository } from '../services/GithubService';
 
 import RepoItem from '../components/RepoItem';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Tab1: React.FC = () => {
   const [repos, setRepos] = useState<RepositoryItem[]>([]);
@@ -107,6 +107,7 @@ const Tab1: React.FC = () => {
 
   return (
     <IonPage>
+      <LoadingSpinner isOpen={loading} />
       <IonHeader>
         <IonToolbar>
           <IonTitle>Repositorios</IonTitle>
@@ -120,15 +121,6 @@ const Tab1: React.FC = () => {
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
-
-        {loading && (
-          <div className="loading-container">
-            <IonSpinner name="crescent" />
-            <IonText>
-              <p>Cargando repositorios...</p>
-            </IonText>
-          </div>
-        )}
 
         {error && !loading && (
           <div className="error-container ion-padding">

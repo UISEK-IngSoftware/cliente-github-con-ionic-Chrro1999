@@ -3,30 +3,38 @@ import { logoGithub } from "ionicons/icons"
 import './login.css'; 
 import { useState } from "react";
 import AuthService from "../services/AuthService";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Login: React.FC = () => {
     const [userName, setUserName] =  useState('');
     const [token, setToken] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
         if (!userName || !token) {
             setError('Por favor ingrese usuario y token de Github');
             return;
         }
-        const success = AuthService.login(userName, token);
-        if (success) {
-            window.location.href='tab1';
-        } else {
-            setError('Error al iniciar sesión. Verifique sus credenciales.');
-            return;
+        try {
+            setLoading(true);
+            const success = AuthService.login(userName, token);
+            if (success) {
+                window.location.href='tab1';
+            } else {
+                setError('Error al iniciar sesión. Verifique sus credenciales.');
+                return;
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <IonPage>
+            <LoadingSpinner isOpen={loading} />
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Iniciar sesión</IonTitle>
@@ -71,6 +79,7 @@ const Login: React.FC = () => {
                     </form>
                 </div>
             </IonContent>
+                
         </IonPage>
     )
 }

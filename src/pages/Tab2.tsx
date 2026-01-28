@@ -1,21 +1,10 @@
-import { 
-  IonButton, 
-  IonContent, 
-  IonHeader, 
-  IonPage, 
-  IonTitle, 
-  IonToolbar,
-  IonInput, 
-  IonTextarea,
-  IonSpinner,
-  useIonToast,
-  IonText
-} from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonTextarea, useIonToast, IonText } from '@ionic/react';
 import './Tab2.css';
 import { useHistory } from 'react-router';
 import { useState } from 'react';
 import { RepositoryItem } from '../interfaces/RepositoryItem';
 import { createRepository } from '../services/GithubService';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Tab2: React.FC = () => {
   const history = useHistory();
@@ -97,6 +86,7 @@ const Tab2: React.FC = () => {
 
   return (
     <IonPage>
+      <LoadingSpinner isOpen={loading} />
       <IonHeader>
         <IonToolbar>
           <IonTitle>Crear Repositorio</IonTitle>
@@ -141,14 +131,7 @@ const Tab2: React.FC = () => {
             onClick={saveRepository}
             disabled={loading}
           >
-            {loading ? (
-              <>
-                <IonSpinner name="crescent" className="button-spinner" />
-                Creando...
-              </>
-            ) : (
-              'Crear Repositorio'
-            )}
+            {loading ? 'Creando...' : 'Crear Repositorio'}
           </IonButton>
 
           <IonText color="medium" className="form-hint">
